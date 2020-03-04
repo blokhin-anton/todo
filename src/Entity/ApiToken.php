@@ -32,6 +32,13 @@ class ApiToken
      */
     private $userSecurity;
 
+    public function __construct(UserSecurity $userSecurity)
+    {
+        $this->token = bin2hex(random_bytes(60));
+        $this->userSecurity = $userSecurity;
+        $this->expiresAt = new \DateTime('+1 hour');
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -42,23 +49,9 @@ class ApiToken
         return $this->token;
     }
 
-    public function setToken(string $token): self
-    {
-        $this->token = $token;
-
-        return $this;
-    }
-
     public function getExpiresAt(): ?\DateTimeInterface
     {
         return $this->expiresAt;
-    }
-
-    public function setExpiresAt(\DateTimeInterface $expiresAt): self
-    {
-        $this->expiresAt = $expiresAt;
-
-        return $this;
     }
 
     public function getUserSecurity(): ?UserSecurity
@@ -66,10 +59,4 @@ class ApiToken
         return $this->userSecurity;
     }
 
-    public function setUserSecurity(?UserSecurity $userSecurity): self
-    {
-        $this->userSecurity = $userSecurity;
-
-        return $this;
-    }
 }
